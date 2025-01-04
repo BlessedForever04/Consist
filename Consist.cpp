@@ -182,13 +182,7 @@ void setup(int Currentdate){
     file2.close();
     //Cheacks if file is present in the local directory of our code
     // If "dailydata.txt" is not present then it creates one for storing data
-    ifstream file3("dailydata.txt");
-    //another constructor for file :p
-    if(!file3.is_open()){
-        ofstream NewFile("dailydata.txt"); 
-        NewFile<<0<<"\n";
-        NewFile.close();
-    }
+    ofstream file3("dailydata.txt");
     file3.close();
 }
 
@@ -253,6 +247,7 @@ int main(){
     }
 
     while(true){
+        system("cls");
         cout<<"Select mode - "<<endl;
         cout<<"1 - Daily tasks\n2 - Normal tasks\n3 - Exit\n: ";
         cin>>input;
@@ -262,7 +257,8 @@ int main(){
             while(true){
                 system("cls");
                 cout<<"\nYour points: "<<score;
-                cout<<"\n\nYour daily To-Do list:\n\n";
+                cout<<"\n\nMiss a single and your score will be zero\nYour daily To-Do list:\n\n";
+
                 print("dailydata.txt");
 
                 taskStatus(status);
@@ -297,7 +293,7 @@ int main(){
             if(input == 2){
                 while(input!=11){
                     system("cls");
-                    cout<<"\nYour daily To-Do list:\n\n";
+                    cout<<"\nYour daily To-Do list:\n\n\n";
                     print("dailydata.txt");
                     taskStatus(status);
                     cout<<endl;
