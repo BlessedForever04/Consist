@@ -1,7 +1,9 @@
 <h2>Dual To-Do Modes:</h2>
 <pre>Daily Tasks: Tasks reset daily, with a cool "Task Status" system and a gamified score to keep you motivated.
 
-Normal Tasks: A flexible list where tasks persist until you decide otherwise (yes, even that one task you've been ignoring for weeks).</pre>
+Normal Tasks: A flexible list where tasks persist until you decide otherwise.
+
+(yes, even that one task you've been ignoring for weeks).</pre>
 <br>
 
 <h2>Core Functionalities:</h2>
@@ -39,4 +41,5 @@ Console clearing magic with system("cls"). Works on Windows—Linux/macOS users,
 <br>
 
 <h2>Acknowledgments 🙌</h2>
-<pre>"It's very simple to make todo list.. so lame", this is what everyone said but,"How can we make it work completely and with some fun?", is what my mind said.</pre>
+<pre>"It's very simple to make todo list.. so lame", this is what everyone said.
+"How can we make it work completely and with some fun?", is what my mind said.</pre>
