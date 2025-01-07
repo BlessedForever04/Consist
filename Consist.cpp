@@ -1,16 +1,14 @@
 // "data.txt" stores long term tasks, "dailydata.txt" stores daily tasks.
 // "metadata.txt" stores the information required to run this code (1. previous date 2. Task complition status 3. Score)
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <cstdlib>
-#include <ctime> 
-//ctime is used to retrieve date.
-//fstream for file handling.
-//cstdlib for clearing terminal after each iteration.
+#include <iostream> // cin/cout and basic tasks
+#include <fstream>  // <fstream> for file handling
+#include <vector>   // just for using vectors
+#include <cstdlib>  // For clearing terminal after each iteration
+#include <ctime>    // <ctime> retrieves date information
+
 using namespace std;
 
-//add() adds the task in local storage (data.txt or dailydata.txt) file.
+//add() adds the task in local storage (data.txt or dailydata.txt) file, changes the task status to 0/false when new daily task is added and also inputs the deadline for normal tasks.
 void add(string filename, bool &status){
     
     fstream file(filename, ios::app); //ios::app and fstream for specifically appending the data inserted to file to avoid rewriting
@@ -20,6 +18,7 @@ void add(string filename, bool &status){
     file<<task<<"\n";
     file.close();
 
+    // If add() function is called for daily list purpose then this changes the task status after addition of task.
     if(filename == "dailydata.txt"){
         string line;
         vector <string> history;
@@ -40,6 +39,7 @@ void add(string filename, bool &status){
         status = false;
     }
 
+    // if add() function is called for normal list puropose then it asks for user input for deadline for added task.
     if(filename == "data.txt"){
         int day;
         cout<<"\nEnter number of days for deadline: ";
@@ -52,23 +52,23 @@ void add(string filename, bool &status){
         temp<<day<<"\n";
         temp.close();
     }
-
     system("cls"); //clears the terminal after each iteration or successful function call
 }
 
-//delete() function deletes any task within list with task number as input;
+//delete() function deletes any task within list with task number as input.
 void Delete(string filename){
     ifstream file(filename); //ifstream for only reading the file and not writing anything
     cout<<"Enter task number to delete: ";
-    int target; // Target is task's number (example: task number 3 or task number 8)
+    int target; // Target is tasks number (example: task number 3 or task number 8)
     cin>>target;
-    while(target<=0){
+    while(target<=0){ // Just normal validation as target cannot be 0 or less than it.
         cout<<"Wrong input, enter valid input"<<endl<<": ";
         cin>>target;
     }
-    vector <string> history;
-    string line;
+    vector <string> history; // vector History stores the all information in required file
+    string line; // string line for storing each line at a time.
     
+    // if Delete() function is called for normal list then it also deletes the associated deadline to the task.
     if(filename == "data.txt"){
         vector <string> history2;
         ifstream temp("metadata.txt");
@@ -103,8 +103,8 @@ void Delete(string filename){
     system("cls");
 }
 
-//Modify() function modifies any task, we have to enter updated or completely new task as input;
-//acts similar to delete() function with smaller chnages;
+//edit() function modifies any task. We have to enter updated or completely new task as input also allows chaning deadline
+//acts similar to delete() function with smaller chnages.
 void edit(string filename){
     ifstream file(filename);
     int target;
@@ -115,7 +115,7 @@ void edit(string filename){
     else{
         target = 1;
     }
-    
+    // target = 1 signifies edit of tasks
     if(target == 1){
         cout<<"Enter task number to edit: ";
         cin>>target;
@@ -151,6 +151,7 @@ void edit(string filename){
         system("cls");
     }
     else{
+        // target = 1 signifies edit of deadlines.
         if(target == 2){
             cout<<"Enter task number: ";
             cin >> target;
@@ -187,7 +188,7 @@ void edit(string filename){
     }
 }
 
-//Clearall() function clears the whole to-do list, just deletes all tasks.
+//Clearall() function clears the whole to-do list, just deletes all tasks along with deadlines allocated to tasks.
 void clearall(string filename){
     int confirm;
     int history[3];
@@ -203,6 +204,7 @@ void clearall(string filename){
             file.close();
             system("cls");
 
+            // Deleting all deadlines.
             if(filename == "data.txt"){
                 ifstream temp("metadata.txt");
                 for(int i = 0; i < 3; i++){
@@ -222,7 +224,7 @@ void clearall(string filename){
     }
 }
 
-//print() function prints all the tasks in the list
+//print() function prints all the tasks in the list and their deadlines.
 void print(string filename){
     ifstream file(filename);
     int counter = 1; //simple counter to print task number
@@ -274,7 +276,7 @@ void print(string filename){
     file.close();
 }
 
-//Swapping() functions swaps 2 tasks (their position), 2 inputs are required (their task number);
+//Swapping() functions swaps 2 tasks (their position) and their deadlines, 2 inputs are required (their task number);
 void swapping(string filename){
     int t1, t2; //target 1 and target 2
     string line;
@@ -324,11 +326,9 @@ void swapping(string filename){
     }
     system("cls");
 }
-//Checks if file is present in the local directory of our code, if not then it creates it.
-//Sets up the required files.
+//Checks if files are present in the local directory of our code, if not then it creates them.
+//Sets up the required files
 void setup(int Currentdate){
-    //Cheacks if file is present in the local directory of our code
-    // If "data.txt" and "dailydata.txt" is not present then it creates one for storing data
     ifstream file("data.txt"); 
     if(!file.is_open()){
         ofstream temp1("data.txt");
@@ -364,6 +364,8 @@ void taskStatus(bool status){
     }
 }
 
+// UpdateDeadline() function updates deadlines everyday when code is run daily, it's like bootup process which occures as you run the code.
+// making shortcut keeping it as startup app will make it automatic for exe to run everyday (obviously only if you open laptop/pc everyday).
 void UpdateDeadline(int currentdate){
     ifstream temp("metadata.txt");
     ifstream temp5("metadata.txt");
@@ -401,7 +403,6 @@ int main(){
     // Convert to local time structure
     tm *localTime = localtime(&now);
     // Get the current hour
-    // int currentHour = localTime->tm_hour; // Time ch kam nahi ahe sadhya as date will be enough.
     int Currentdate = localTime->tm_mday;
     int previousdate;
     int input = 0;
