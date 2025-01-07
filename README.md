@@ -1,7 +1,7 @@
 <h2>Dual To-Do Modes:</h2>
 <pre>Daily Tasks: Tasks reset daily, with a cool "Task Status" system and a gamified score to keep you motivated.
 
-Normal Tasks: A flexible list where tasks persist until you decide otherwise along with deadline management now.
+Normal Tasks: A flexible list where tasks persist until you decide otherwise.
 
 (Deadlines won't help you if you dont open this application daily, so do open it daily, lazy people!)</pre>
 <br>
