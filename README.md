@@ -1,27 +1,29 @@
 <h2>Dual To-Do Modes:</h2>
-<pre>Daily Tasks: Tasks reset daily, with a cool "Task Status" system and a gamified score to keep you motivated.
+<pre>Daily Tasks: Tasks reset daily, with a cool "Task Status" system and a gamified score to keep you motivated along with deadline feature.
 
-Normal Tasks: A flexible list where tasks persist until you decide otherwise.
+Normal Tasks: A flexible list where tasks persist until you decide otherwise along with deadline management now.
 
-(yes, even that one task you've been ignoring for weeks).</pre>
+(Deadlines won't help you if you dont open this application daily, so do open it daily, lazy people!)</pre>
 <br>
 
 <h2>Core Functionalities:</h2>
-<pre>Add Tasks: Enter new tasks with ease.
+<pre>Add Tasks: Because who doesn’t love adding more to their plate?
+  
+Delete Tasks: Like a magician, make tasks disappear (poof!).
 
-Delete Tasks: Clean up the list when you're done (or when you realize you've overcommitted).
+Edit Tasks: Change your mind? No problem! Just edit away.
 
-Modify Tasks: Change your mind? Update tasks anytime.
+Daily and Normal Tasks: Keep your life organized like a well-sorted sock drawer with deadline for your tasks.
 
-Swap Tasks: Rearrange tasks because order matters (sometimes).
+Task Status: Know when you’ve conquered your tasks (or when they’ve conquered you).
 
-Clear All Tasks: Start fresh with the press of a button (careful, there's no "undo").</pre>
+Deadline Management: Because we all know deadlines are just necessary… right?</pre>
 <br>
 
 <h2>Built-In File Handling:</h2>
 <pre>Stores tasks in local files (data.txt and dailydata.txt) for persistence.
 
-Metadata (like dates, status, and scores) managed in metadata.txt. A personal assistant in file form.</pre>
+Metadata (like dates, status, scores and deadlines) managed in metadata.txt. A personal assistant in file form.</pre>
 <br>
 
 <h2>Gamified Daily Tasks:</h2>
@@ -39,6 +41,9 @@ Score resets if you miss a day (motivation, or mild anxiety—you decide).</pre>
 
 Console clearing magic with system("cls"). Works on Windows—Linux/macOS users, swap with system("clear").</pre>
 <br>
+
+<h2>Conclusion</h2>
+<p>This To-Do List application is designed to be more than just a simple organizer, it’s a comprehensive tool that combines functionality with user engagement through features like deadline management and score tracking. Whether you're managing daily chores or long-term projects, this app has got your back!</p>
 
 <h2>Acknowledgments 🙌</h2>
 <pre>"It's very simple to make todo list.. so lame", this is what everyone said.
