@@ -677,7 +677,7 @@ int main(){
                     std::cout<<"1 - Yes      0 - No"<<std::endl;
                     std::cin>>input;
                     if(input == 1){
-                        break;
+                        return 0;
                     }
                     else{
                         input == 10;
