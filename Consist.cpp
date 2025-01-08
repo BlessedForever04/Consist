@@ -6,28 +6,26 @@
 #include <cstdlib>  // For clearing terminal after each iteration
 #include <ctime>    // <ctime> retrieves date information
 
-using namespace std;
-
 //add() adds the task in local storage (data.txt or dailydata.txt) file, changes the task status to 0/false when new daily task is added and also inputs the deadline for normal tasks.
-void add(string filename, bool &status){
+void add(std::string filename, bool &status){
     
-    fstream file(filename, ios::app); //ios::app and fstream for specifically appending the data inserted to file to avoid rewriting
-    cout<<"Enter task: ";
-    string task;
-    getline(cin, task);
+    std::fstream file(filename, std::ios::app); //ios::app and fstream for specifically appending the data inserted to file to avoid rewriting
+    std::cout<<"Enter task: ";
+    std::string task;
+    getline(std::cin, task);
     file<<task<<"\n";
     file.close();
 
     // If add() function is called for daily list purpose then this changes the task status after addition of task.
     if(filename == "dailydata.txt"){
-        string line;
-        vector <string> history;
-        ifstream temp("metadata.txt");
-        while(getline(temp, line)){
+        std::string line;
+        std::vector <std::string> history;
+        std::ifstream temp("metadata.txt");
+        while(std::getline(temp, line)){
             history.push_back(line);
         }
         temp.close();
-        ofstream temp2("metadata.txt");
+        std::ofstream temp2("metadata.txt");
         for(int i = 0; i < history.size(); i++){
             if(i == 1){
                 temp2<<0<<"\n";
@@ -42,13 +40,13 @@ void add(string filename, bool &status){
     // if add() function is called for normal list puropose then it asks for user input for deadline for added task.
     if(filename == "data.txt"){
         int day;
-        cout<<"\nEnter number of days for deadline: ";
-        cin>>day;
+        std::cout<<"\nEnter number of days for deadline: ";
+        std::cin>>day;
         while(day <= 0){
-            cout<<"Enter valid input: ";
-            cin>>day;
+            std::cout<<"Enter valid input: ";
+            std::cin>>day;
         }
-        fstream temp("metadata.txt", ios::app);
+        std::fstream temp("metadata.txt", std::ios::app);
         temp<<day<<"\n";
         temp.close();
     }
@@ -56,27 +54,27 @@ void add(string filename, bool &status){
 }
 
 //delete() function deletes any task within list with task number as input.
-void Delete(string filename){
-    ifstream file(filename); //ifstream for only reading the file and not writing anything
-    cout<<"Enter task number to delete: ";
+void Delete(std::string filename){
+    std::ifstream file(filename); //ifstream for only reading the file and not writing anything
+    std::cout<<"Enter task number to delete: ";
     int target; // Target is tasks number (example: task number 3 or task number 8)
-    cin>>target;
+    std::cin>>target;
     while(target<=0){ // Just normal validation as target cannot be 0 or less than it.
-        cout<<"Wrong input, enter valid input"<<endl<<": ";
-        cin>>target;
+        std::cout<<"Wrong input, enter valid input"<<std::endl<<": ";
+        std::cin>>target;
     }
-    vector <string> history; // vector History stores the all information in required file
-    string line; // string line for storing each line at a time.
+    std::vector <std::string> history; // vector History stores the all information in required file
+    std::string line; // string line for storing each line at a time.
     
     // if Delete() function is called for normal list then it also deletes the associated deadline to the task.
     if(filename == "data.txt"){
-        vector <string> history2;
-        ifstream temp("metadata.txt");
-        while(getline(temp, line)){
+        std::vector <std::string> history2;
+        std::ifstream temp("metadata.txt");
+        while(std::getline(temp, line)){
             history2.push_back(line);
         }
         temp.close();
-        ofstream temp2("metadata.txt"); //ofstream for writing (overwriting) task into file
+        std::ofstream temp2("metadata.txt"); //ofstream for writing (overwriting) task into file
 
         //second loop refills the metadata.txt with required update and changes
         for(int i = 0; i < history2.size() ; i++){
@@ -92,7 +90,7 @@ void Delete(string filename){
         history.push_back(line);
     }
     file.close();
-    ofstream file2(filename); //ofstream for writing (overwriting) task into file
+    std::ofstream file2(filename); //ofstream for writing (overwriting) task into file
     //second loop refills the data.txt with required update and changes
     for(int i = 0; i < history.size() ; i++){
         if(i+1 != target){
@@ -105,39 +103,39 @@ void Delete(string filename){
 
 //edit() function modifies any task. We have to enter updated or completely new task as input also allows chaning deadline
 //acts similar to delete() function with smaller chnages.
-void edit(string filename){
-    ifstream file(filename);
+void edit(std::string filename){
+    std::ifstream file(filename);
     int target;
     if(filename == "data.txt"){
-        cout<<"Edit task - 1    Edit deadline - 2"<<endl;
-        cin >> target;
+        std::cout<<"Edit task - 1    Edit deadline - 2"<<std::endl;
+        std::cin >> target;
     }
     else{
         target = 1;
     }
     // target = 1 signifies edit of tasks
     if(target == 1){
-        cout<<"Enter task number to edit: ";
-        cin>>target;
+        std::cout<<"Enter task number to edit: ";
+        std::cin>>target;
         while(target<=0){
-            cout<<"Wrong input, enter valid input"<<endl<<": ";
-            cin>>target;
+            std::cout<<"Wrong input, enter valid input"<<std::endl<<": ";
+            std::cin>>target;
         }
 
-        cout<<"Enter new task: ";
-        string NewTask;
-        cin.ignore(10, '\n'); //added cin.ignore() to remove cin's new line buffer
-        getline(cin, NewTask); //this acts as primary getLine function for NewTask
+        std::cout<<"Enter new task: ";
+        std::string NewTask;
+        std::cin.ignore(10, '\n'); //added cin.ignore() to remove cin's new line buffer
+        std::getline(std::cin, NewTask); //this acts as primary getLine function for NewTask
         
-        vector <string> history;
-        string line;
+        std::vector <std::string> history;
+        std::string line;
 
-        while(getline(file, line)){
+        while(std::getline(file, line)){
             history.push_back(line); // Stores vector with file data
         }
 
         file.close();
-        ofstream file2(filename);
+        std::ofstream file2(filename);
 
         for(int i = 0; i < history.size() ; i++){
             if(i+1 != target){
@@ -153,24 +151,24 @@ void edit(string filename){
     else{
         // target = 1 signifies edit of deadlines.
         if(target == 2){
-            cout<<"Enter task number: ";
-            cin >> target;
+            std::cout<<"Enter task number: ";
+            std::cin >> target;
             while(target <= 0){
-                cout<<"Wrong input, enter valid input"<<endl<<": ";
-                cin>>target;
+                std::cout<<"Wrong input, enter valid input"<<std::endl<<": ";
+                std::cin>>target;
             }
             int newdeadline;
-            cout<<"Enter new deadline: ";
-            cin>>newdeadline;
-            cin.ignore(10, '\n');
-            vector <string> history2;
-            string line;
-            ifstream filee("metadata.txt");
-            while(getline(filee, line)){
+            std::cout<<"Enter new deadline: ";
+            std::cin>>newdeadline;
+            std::cin.ignore(10, '\n');
+            std::vector <std::string> history2;
+            std::string line;
+            std::ifstream filee("metadata.txt");
+            while(std::getline(filee, line)){
                 history2.push_back(line);
             }
             filee.close();
-            ofstream temp("metadata.txt");
+            std::ofstream temp("metadata.txt");
 
             for(int i = 0; i<history2.size(); i++){
                 if(i+1 != target+3){
@@ -182,70 +180,70 @@ void edit(string filename){
             }
         }
         else{
-            cout<<"invalid input, enter valid input\n";
+            std::cout<<"invalid input, enter valid input\n";
             edit(filename);
         }
     }
 }
 
 //Clearall() function clears the whole to-do list, just deletes all tasks along with deadlines allocated to tasks.
-void clearall(string filename){
+void clearall(std::string filename){
     int confirm;
     int history[3];
-    cout<<"1 - Yes / 0 - No"<<endl<<": ";
-    cin>>confirm;
+    std::cout<<"1 - Yes / 0 - No"<<std::endl<<": ";
+    std::cin>>confirm;
     if(confirm == 0){
         system("cls");
     }
     else{
         if(confirm == 1){
-            ofstream file(filename);
+            std::ofstream file(filename);
             file << "";
             file.close();
             system("cls");
 
             // Deleting all deadlines.
             if(filename == "data.txt"){
-                ifstream temp("metadata.txt");
+                std::ifstream temp("metadata.txt");
                 for(int i = 0; i < 3; i++){
                     temp >> history[i];
                 }
                 temp.close();
-                ofstream temp2("metadata.txt");
+                std::ofstream temp2("metadata.txt");
                 for(int i = 0; i< 3; i++){
                     temp2 << history[i]<<"\n";
                 }
             }
         }
         else{
-            cout<<"Enter valid input";
+            std::cout<<"Enter valid input";
             clearall(filename);
         }
     }
 }
 
 //print() function prints all the tasks in the list and their deadlines.
-void print(string filename){
-    ifstream file(filename);
+void print(std::string filename){
+    std::ifstream file(filename);
     int counter = 1; //simple counter to print task number
-    string line, deadline;
+    std::string line, deadline;
     if(filename == "data.txt"){
-        cout<<"                              Tasks\n";
-        cout<<"-------------------------------------------------------------------\n";
+        std::cout<<"                              Tasks\n";
+        std::cout<<"-------------------------------------------------------------------\n";
     }
     else{
-        cout<<"         Tasks"<<endl;
-        cout<<"-------------------------"<<endl;
+        std::cout<<"         Tasks"<<std::endl;
+        std::cout<<"-------------------------"<<std::endl;
     }
 
-    ifstream temp("metadata.txt");
+    std::ifstream temp("metadata.txt");
     temp >> deadline >> deadline >> deadline; // storing date, status and score in deadline.
     while(getline(file, line)){
         if(counter != 0){
             if(filename == "data.txt"){
                 temp >> deadline;
                 int totalWidth = 60;
-                int usedSpace = to_string(counter).length() + 2 + line.length() + 10; // Counter + ". " + line length + "Deadline: "
+                int usedSpace = std::to_string(counter).length() + 2 + line.length() + 10; // Counter + ". " + line length + "Deadline: "
                 int freespace = totalWidth - usedSpace;
 
                 if (freespace < 0) freespace = 0; // Avoid negative spacing
@@ -255,7 +253,7 @@ void print(string filename){
                 // cout<<counter<<". "<<line<<"\t\tDeadline: "<<deadline<<endl;
             }
             else{
-                cout<<counter<<". "<<line<<endl;
+                std::cout<<counter<<". "<<line<<std::endl;
             }
         }
         counter++;
@@ -263,90 +261,90 @@ void print(string filename){
 
     if(filename == "data.txt"){
         if(counter == 0 || counter == 1){
-            cout<<"                         --- No tasks ---"<<endl;
+            std::cout<<"                         --- No tasks ---"<<std::endl;
         }
-        cout<<"-------------------------------------------------------------------\n";
+        std::cout<<"-------------------------------------------------------------------\n";
     }
     else{
         if(counter == 0 || counter == 1){
-            cout<<"    --- No tasks ---"<<endl;
+            std::cout<<"    --- No tasks ---"<<std::endl;
         }
-        cout<<"-------------------------"<<endl;
+        std::cout<<"-------------------------"<<std::endl;
     }
     file.close();
 }
 
 //Swapping() functions swaps 2 tasks (their position) and their deadlines, 2 inputs are required (their task number);
-void swapping(string filename){
+void swapping(std::string filename){
     int t1, t2; //target 1 and target 2
-    string line;
-    cout<<"Enter task to swap: ";
-    cin>>t1;
+    std::string line;
+    std::cout<<"Enter task to swap: ";
+    std::cin>>t1;
     while(t1<=0){
-        cout<<"Wrong input, enter valid input"<<endl<<": ";
-        cin>>t1;
+        std::cout<<"Wrong input, enter valid input"<<std::endl<<": ";
+        std::cin>>t1;
     }
-    cout<<"Enter task to swap with: ";
-    cin>>t2;
+    std::cout<<"Enter task to swap with: ";
+    std::cin>>t2;
     while(t2<=0 || t1 == t2){
-        cout<<"Wrong input, enter valid input"<<endl<<": ";
-        cin>>t2;
+        std::cout<<"Wrong input, enter valid input"<<std::endl<<": ";
+        std::cin>>t2;
     }
     
-    cin.ignore(10,'\n');
+    std::cin.ignore(10,'\n');
 
-    ifstream file(filename);
-    vector <string> history;
+    std::ifstream file(filename);
+    std::vector <std::string> history;
 
     while(getline(file, line)){
         history.push_back(line);
     }
     file.close();
     swap(history[t1-1], history[t2-1]);
-    ofstream filee(filename);
+    std::ofstream filee(filename);
     for(int i = 0; i< history.size(); i++){
         filee<<history[i]<<"\n";
     }
     filee.close();
 
     if(filename == "data.txt"){
-        vector <string> history2;
-        ifstream temp("metadata.txt");
-        while(getline(temp, line)){
+        std::vector <std::string> history2;
+        std::ifstream temp("metadata.txt");
+        while(std::getline(temp, line)){
             history2.push_back(line);
         }
         temp.close();
         swap(history2[t1-1+3], history2[t2-1+3]);
-        ofstream temp2("metadata.txt");
+        std::ofstream temp2("metadata.txt");
         for(int i = 0; i < history2.size(); i++){
             temp2 << history2[i]<<"\n";
         }
         temp2.close();
-        cout<<"Everything works here"<<endl;
+        std::cout<<"Everything works here"<<std::endl;
     }
     system("cls");
 }
 //Checks if files are present in the local directory of our code, if not then it creates them.
 //Sets up the required files
 void setup(int Currentdate){
-    ifstream file("data.txt"); 
+    std::ifstream file("data.txt"); 
     if(!file.is_open()){
-        ofstream temp1("data.txt");
+        std::ofstream temp1("data.txt");
         temp1.close();
     }
     file.close();
 
-    ifstream file3("dailydata.txt");
+    std::ifstream file3("dailydata.txt");
     if(!file3.is_open()){
-        ofstream temp2("dailydata.txt");
+        std::ofstream temp2("dailydata.txt");
         temp2.close();
     }
     file3.close();
 
-    ifstream file2("metadata.txt");
+    std::ifstream file2("metadata.txt");
     // consider it as constructor for files which works when file is not present in desired directory XD
     if(!file2.is_open()){
-        ofstream NewFile("metadata.txt"); 
+        std::ofstream NewFile("metadata.txt"); 
         NewFile<<Currentdate<<"\n"; // storing current date
         NewFile<<0<<"\n"; // storing task status
         NewFile<<0<<"\n"; // storing score
@@ -358,21 +356,21 @@ void setup(int Currentdate){
 // Prints out the task status.
 void taskStatus(bool status){
     if(status == false){
-        cout<<"Task status: Not completed\n"<<endl;
+        std::cout<<"Task status: Not completed\n"<<std::endl;
     }else{
-        cout<<"Task status: Completed\n"<<endl;
+        std::cout<<"Task status: Completed\n"<<std::endl;
     }
 }
 
 // UpdateDeadline() function updates deadlines everyday when code is run daily, it's like bootup process which occures as you run the code.
 // making shortcut keeping it as startup app will make it automatic for exe to run everyday (obviously only if you open laptop/pc everyday).
 void UpdateDeadline(int currentdate){
-    ifstream temp("metadata.txt");
-    ifstream temp5("metadata.txt");
-    vector <int> history;
-    string line;
+    std::ifstream temp("metadata.txt");
+    std::ifstream temp5("metadata.txt");
+    std::vector <int> history;
+    std::string line;
     int number;
-    while(getline(temp5, line)){
+    while(std::getline(temp5, line)){
         temp>>number;
         history.push_back(number);
     }
@@ -383,7 +381,7 @@ void UpdateDeadline(int currentdate){
     if(number < 0){
 
     }
-    ofstream temp2("metadata.txt");
+    std::ofstream temp2("metadata.txt");
     for(int i = 0; i < history.size(); i++){
         if(i>2){
             temp2 << history[i] - number<<"\n";
@@ -406,10 +404,10 @@ int main(){
     int Currentdate = localTime->tm_mday;
     int previousdate;
     int input = 0;
-    string line;
+    std::string line;
 
     setup(Currentdate); // Check if the required files are available within the required directory or not, creates itself is not present.
-    ifstream temp("metadata.txt");
+    std::ifstream temp("metadata.txt");
     temp >> previousdate;
     temp >> line; // Just storing second line which is status here;
     temp >> score; // storing actual score
@@ -424,7 +422,7 @@ int main(){
         if(Difference <= 1){
         //This following if condition part changes status to false representating new day.
             if(Difference == -27 || Difference == -30 || Difference == -29 || Difference == -28 || Difference == 1){
-                ofstream temp("metadata.txt");
+                std::ofstream temp("metadata.txt");
                 temp << Currentdate <<"\n"; //stores present date in file
                 temp << 0 <<"\n"; // sets task status as 0 in file
                 temp << score <<"\n"; // store score back in
@@ -433,7 +431,7 @@ int main(){
             }
             else{
                 // This part executes when there's negative difference between current and previous date
-                ofstream temp("metadata.txt");
+                std::ofstream temp("metadata.txt");
                 temp << Currentdate<<"\n"; //stores present date in file
                 temp << 0 <<"\n"; // sets task status as 0 in file
                 temp << 0 <<"\n"; // sets score back to zero as day gap is more than 1, losing all score.
@@ -444,7 +442,7 @@ int main(){
         }
         // This is losing part where you lose you all score as you have gap more than 1
         else{
-            ofstream temp("metadata.txt");
+            std::ofstream temp("metadata.txt");
             temp << Currentdate<<"\n"; //stores present date in file
             temp << 0 <<"\n"; // sets task status as 0 in file
             temp << 0 <<"\n"; // sets score back to zero as day gap is more than 1, losing all score.
@@ -454,7 +452,7 @@ int main(){
         }
     }
     else{
-        ifstream temp("metadata.txt");
+        std::ifstream temp("metadata.txt");
         temp >> line >> line; // line variable stores second data i.e status (0/1);
         if(line == "1"){
             status = true;
@@ -464,43 +462,43 @@ int main(){
 
     while(true){
         system("cls");
-        cout<<" - Select mode - \n"<<endl;
-        cout<<"1 - Daily tasks\n2 - Normal tasks\n3 - Exit\n: ";
-        cin>>input;
+        std::cout<<" - Select mode - \n"<<std::endl;
+        std::cout<<"1 - Daily tasks\n2 - Normal tasks\n3 - Exit\n: ";
+        std::cin>>input;
 
         // daily todo list
         if(input == 1){
             while(true){
                 system("cls");
-                cout<<"\nMiss a single and your score will be zero\n";
-                cout<<"Your points: "<<score;
-                cout<<"\n\nYour daily To-Do list:\n\n";
+                std::cout<<"\nMiss a single and your score will be zero\n";
+                std::cout<<"Your points: "<<score;
+                std::cout<<"\n\nYour daily To-Do list:\n\n";
 
                 print("dailydata.txt");
 
                 taskStatus(status);
 
-                cout<<"1 - Mark as done\n2 - Modify\n3 - Exit\n: ";
-                cin>>input;
+                std::cout<<"1 - Mark as done\n2 - Modify\n3 - Exit\n: ";
+                std::cin>>input;
 
                 // case 1 for sub branch 1
                 if(input == 1){
                     if(status != true){
                         status = true;
 
-                        vector <string> historyy;
-                        string dm;
-                        ifstream demp("metadata.txt");
+                        std::vector <std::string> historyy;
+                        std::string dm;
+                        std::ifstream demp("metadata.txt");
 
-                        while(getline(demp, dm)){
+                        while(std::getline(demp, dm)){
                             historyy.push_back(dm);
                         }
                         demp.close();
 
-                        ifstream temp("metadata.txt");
+                        std::ifstream temp("metadata.txt");
                         temp >> line; // line stores current date;
                         temp.close();
-                        ofstream temp2("metadata.txt");
+                        std::ofstream temp2("metadata.txt");
                         temp2 << line<<"\n"; // stores back the date
                         temp2 << 1 <<"\n"; // stores the status
 
@@ -522,25 +520,25 @@ int main(){
                         }
                     }
                     else{
-                        cout<<"All tasks are already marked as done!"<<endl;
+                        std::cout<<"All tasks are already marked as done!"<<std::endl;
                     }
                 }
                 if(input == 2){
                     while(input!=11){
                         system("cls");
-                        cout<<"\nYour daily To-Do list:\n\n\n";
+                        std::cout<<"\nYour daily To-Do list:\n\n\n";
                         print("dailydata.txt");
                         taskStatus(status);
-                        cout<<endl;
-                        cout<<"1: Add task\n";
-                        cout<<"2: Delete task\n";
-                        cout<<"3: Edit task\n";
-                        cout<<"4: Swap tasks\n";
-                        cout<<"5: Clear all tasks\n";
-                        cout<<"6: Exit\n";
-                        cout<<": ";
-                        cin>>input;
-                        cin.ignore(10,'\n');
+                        std::cout<<std::endl;
+                        std::cout<<"1: Add task\n";
+                        std::cout<<"2: Delete task\n";
+                        std::cout<<"3: Edit task\n";
+                        std::cout<<"4: Swap tasks\n";
+                        std::cout<<"5: Clear all tasks\n";
+                        std::cout<<"6: Exit\n";
+                        std::cout<<": ";
+                        std::cin>>input;
+                        std::cin.ignore(10,'\n');
 
                         switch(input){
                             case 1:
@@ -565,8 +563,8 @@ int main(){
 
                             case 6:
                             //Confirmation, just in case someone press is accidently
-                            cout<<"1 - Yes / 0 - No"<<endl<<": ";
-                            cin>>input;
+                            std::cout<<"1 - Yes / 0 - No"<<std::endl<<": ";
+                            std::cin>>input;
                             if(input == 0){
                                 input = 7;
                             }
@@ -577,21 +575,21 @@ int main(){
                                     break;
                                 }
                                 else{
-                                    cout<<"Wrong input, cant perform task";
+                                    std::cout<<"Wrong input, cant perform task";
                                 }
                             }
 
                             default:
                             system("cls");
-                            cout<<"Enter valid input"<<endl;
+                            std::cout<<"Enter valid input"<<std::endl;
                             break;
                         }
                     }
                 }
                 if(input == 3){
-                    cout<<"Confirmation"<<endl;
-                    cout<<"1 - Yes      0 - No"<<endl;
-                    cin>>input;
+                    std::cout<<"Confirmation"<<std::endl;
+                    std::cout<<"1 - Yes      0 - No"<<std::endl;
+                    std::cin>>input;
                     if(input == 1){
                         break;
                         system("cls");
@@ -603,7 +601,7 @@ int main(){
                 }
                 else{
                     system("cls");
-                    cout<<"Enter valid input!"<<endl;
+                    std::cout<<"Enter valid input!"<<std::endl;
                 }
             }
         }
@@ -612,18 +610,18 @@ int main(){
             if(input == 2){
                 while(input!=11){
                 system("cls");
-                cout<<"\nYour friendly To-Do list:\n\n";
+                std::cout<<"\nYour friendly To-Do list:\n\n";
                 print("data.txt");
-                cout<<endl;
-                cout<<"1: Add task\n";
-                cout<<"2: Delete task\n";
-                cout<<"3: Edit task\n";
-                cout<<"4: Swap tasks\n";
-                cout<<"5: Clear all tasks\n";
-                cout<<"6: Exit\n";
-                cout<<": ";
-                cin>>input;
-                cin.ignore(10,'\n');
+                std::cout<<std::endl;
+                std::cout<<"1: Add task\n";
+                std::cout<<"2: Delete task\n";
+                std::cout<<"3: Edit task\n";
+                std::cout<<"4: Swap tasks\n";
+                std::cout<<"5: Clear all tasks\n";
+                std::cout<<"6: Exit\n";
+                std::cout<<": ";
+                std::cin>>input;
+                std::cin.ignore(10,'\n');
 
                 switch(input){
                     case 1:
@@ -648,8 +646,8 @@ int main(){
 
                     case 6:
                     //Confirmation, just in case someone press is accidently
-                    cout<<"1 - Yes / 0 - No"<<endl<<": ";
-                    cin>>input;
+                    std::cout<<"1 - Yes / 0 - No"<<std::endl<<": ";
+                    std::cin>>input;
                     if(input == 0){
                         input = 7;
                     }
@@ -660,13 +658,13 @@ int main(){
                             break;
                         }
                         else{
-                            cout<<"Wrong input, cant perform task";
+                            std::cout<<"Wrong input, cant perform task";
                         }
                     }
 
                     default:
                     system("cls");
-                    cout<<"Enter valid input"<<endl;
+                    std::cout<<"Enter valid input"<<std::endl;
                     break;
                     }
                 }
@@ -675,9 +673,9 @@ int main(){
             else{
                 // Case 3 for main branch
                 if(input == 3){
-                    cout<<"Confirmation"<<endl;
-                    cout<<"1 - Yes      0 - No"<<endl;
-                    cin>>input;
+                    std::cout<<"Confirmation"<<std::endl;
+                    std::cout<<"1 - Yes      0 - No"<<std::endl;
+                    std::cin>>input;
                     if(input == 1){
                         break;
                     }
@@ -688,7 +686,7 @@ int main(){
                 }
                 else{
                     system("cls");
-                    cout<<"Enter valid input!"<<endl;
+                    std::cout<<"Enter valid input!"<<std::endl;
                 }
             }
         }
