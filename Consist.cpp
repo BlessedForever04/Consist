@@ -228,8 +228,8 @@ void print(std::string filename){
     int counter = 1; //simple counter to print task number
     std::string line, deadline;
     if(filename == "data.txt"){
-        std::cout<<"                              Tasks\n";
-        std::cout<<"-------------------------------------------------------------------\n";
+        std::cout<<"                                                 Tasks\n";
+        std::cout<<"-----------------------------------------------------------------------------------------------------------\n";
     }
     else{
         std::cout<<"         Tasks"<<std::endl;
@@ -242,7 +242,7 @@ void print(std::string filename){
         if(counter != 0){
             if(filename == "data.txt"){
                 temp >> deadline;
-                int totalWidth = 60;
+                int totalWidth = 100;
                 int usedSpace = std::to_string(counter).length() + 2 + line.length() + 10; // Counter + ". " + line length + "Deadline: "
                 int freespace = totalWidth - usedSpace;
 
@@ -263,7 +263,7 @@ void print(std::string filename){
         if(counter == 0 || counter == 1){
             std::cout<<"                         --- No tasks ---"<<std::endl;
         }
-        std::cout<<"-------------------------------------------------------------------\n";
+        std::cout<<"-----------------------------------------------------------------------------------------------------------\n";
     }
     else{
         if(counter == 0 || counter == 1){
