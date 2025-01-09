@@ -222,21 +222,31 @@ void clearall(std::string filename){
     }
 }
 
-int totalCount(){
+int totalCount(std::string filename){
     std::string line, deadLine;
-    std::ifstream task("data.txt"), deadlines("metadata.txt");
+    std::ifstream task(filename), deadlines("metadata.txt");
     deadlines >> line >> line >> line;// storing previous date, task status and score.
 
     int stored = 0; // just stores the previous used space to compare the next one
     int used; 
-    while(std::getline(task, line) && std::getline(deadlines, deadLine)){
-        used = 4 + line.length() + 10;// 2 (counter) + 2 (. ) + lineLength + 10("deadline: ") + deadlineLength;
-        if(used > stored){
-            stored = used;
+    if(filename == "data.txt"){
+        while(std::getline(task, line) && std::getline(deadlines, deadLine)){
+            used = 4 + line.length() + 10;// 2 (counter) + 2 (. ) + lineLength + 10("deadline: ");
+            if(used > stored){
+                stored = used;
+            }
+        }
+    deadlines.close();
+    }
+    else{
+        while(std::getline(task, line)){
+            used = 4 + line.length() - 15;// 2 (counter) + 2 (. ) + lineLength + 10("deadline: ") + extra;
+            if(used > stored){
+                stored = used;
+            }
         }
     }
     task.close();
-    deadlines.close();
     if(stored == 0){
         return 50;
     }
@@ -250,22 +260,17 @@ void print(std::string filename){
     std::ifstream file(filename);
     int counter = 1; //simple counter to print task number
     std::string line, deadline;
-    int totalWidth = totalCount();
-    if(filename == "data.txt"){
-        for(int i = 1; i <= totalWidth/2-2; i++){
-            std::cout<<" ";
-        }
-        std::cout<<"Tasks\n";
+    int totalWidth = totalCount(filename);
 
-        for(int i = 1; i != totalWidth+8; i++){
-            std::cout<<"-";
-        }
-        std::cout<<"\n";
+    for(int i = 1; i <= totalWidth/2-2; i++){
+        std::cout<<" ";
     }
-    else{
-        std::cout<<"         Tasks"<<std::endl;
-        std::cout<<"-------------------------"<<std::endl;
+    std::cout<<"   Tasks\n";
+
+    for(int i = 1; i != totalWidth+8; i++){
+        std::cout<<"-";
     }
+    std::cout<<"\n";
 
     std::ifstream temp("metadata.txt");
     temp >> deadline >> deadline >> deadline; // storing date, status and score in deadline.
@@ -288,22 +293,14 @@ void print(std::string filename){
         }
         counter++;
     }
-
-    if(filename == "data.txt"){
-        if(counter == 0 || counter == 1){
-            std::cout<<"                                 --- No tasks ---"<<std::endl;
-        }
-        for(int i = 1; i != totalWidth+8; i++){
-            std::cout<<"-";
-        }
-        std::cout<<"\n";
+    
+    if(counter == 0 || counter == 1){
+        std::cout<<"                     --- No tasks ---"<<std::endl;
     }
-    else{
-        if(counter == 0 || counter == 1){
-            std::cout<<"    --- No tasks ---"<<std::endl;
-        }
-        std::cout<<"-------------------------"<<std::endl;
+    for(int i = 1; i != totalWidth+8; i++){
+        std::cout<<"-";
     }
+    std::cout<<"\n";
     file.close();
 }
 
